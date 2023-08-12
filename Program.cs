@@ -1,34 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 
-class ElementFrequencyCounter
+class ElementAnalyzer
 {
-    private Dictionary<int, int> frequencyMap;
+    private int[] array;
+    private int maximum;
+    private int minimum;
+    private bool analyzed;
 
-    public ElementFrequencyCounter()
+    public ElementAnalyzer(int[] inputArray)
     {
-        frequencyMap = new Dictionary<int, int>();
+        array = inputArray;
+        analyzed = false;
     }
 
-    public void CountElement(int num)
+    public void AnalyzeElements()
     {
-        if (frequencyMap.ContainsKey(num))
+        if (array.Length == 0)
         {
-            frequencyMap[num]++;
+            Console.WriteLine("Array is empty.");
+            return;
         }
-        else
+
+        maximum = array[0];
+        minimum = array[0];
+
+        foreach (int num in array)
         {
-            frequencyMap[num] = 1;
+            if (num > maximum)
+            {
+                maximum = num;
+            }
+
+            if (num < minimum)
+            {
+                minimum = num;
+            }
         }
+
+        analyzed = true;
     }
 
-    public void PrintElementFrequencies()
+    public void PrintResults()
     {
-        Console.WriteLine("Element Frequencies:");
-        foreach (var entry in frequencyMap)
+        if (!analyzed)
         {
-            Console.WriteLine($"{entry.Key}: {entry.Value} times");
+            Console.WriteLine("Please analyze elements first.");
+            return;
         }
+
+        Console.WriteLine($"Maximum element: {maximum}");
+        Console.WriteLine($"Minimum element: {minimum}");
     }
 }
 
@@ -46,12 +67,8 @@ class Program
             array[i] = int.Parse(Console.ReadLine());
         }
 
-        ElementFrequencyCounter counter = new ElementFrequencyCounter();
-        foreach (int num in array)
-        {
-            counter.CountElement(num);
-        }
-
-        counter.PrintElementFrequencies();
+        ElementAnalyzer analyzer = new ElementAnalyzer(array);
+        analyzer.AnalyzeElements();
+        analyzer.PrintResults();
     }
 }
