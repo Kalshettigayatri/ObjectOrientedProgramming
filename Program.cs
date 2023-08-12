@@ -1,41 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class DuplicateCounter
+class UniquePrinter
 {
-    private Dictionary<int, int> frequencyMap;
+    private HashSet<int> uniqueElements;
 
-    public DuplicateCounter()
+    public UniquePrinter()
     {
-        frequencyMap = new Dictionary<int, int>();
+        uniqueElements = new HashSet<int>();
     }
 
-    public void CountDuplicates(int[] array)
+    public void AddElement(int num)
     {
-        foreach (int num in array)
-        {
-            if (frequencyMap.ContainsKey(num))
-            {
-                frequencyMap[num]++;
-            }
-            else
-            {
-                frequencyMap[num] = 1;
-            }
-        }
+        uniqueElements.Add(num);
     }
 
-    public int GetTotalDuplicateCount()
+    public void PrintUniqueElements()
     {
-        int duplicateCount = 0;
-        foreach (var pair in frequencyMap)
+        Console.WriteLine("Unique elements in the array:");
+        foreach (int element in uniqueElements)
         {
-            if (pair.Value > 1)
-            {
-                duplicateCount += pair.Value - 1;
-            }
+            Console.Write(element + " ");
         }
-        return duplicateCount;
+        Console.WriteLine();
     }
 }
 
@@ -43,15 +30,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        int[] array = new int[5];
+        int[] array = { 1, 2, 3, 4, 1, 2, 4, 5, 6, 7, 8, 9, 9 };
 
-        Console.WriteLine("Enter the number");
-        Console.ReadLine();
+        UniquePrinter printer = new UniquePrinter();
+        foreach (int num in array)
+        {
+            printer.AddElement(num);
+        }
 
-        DuplicateCounter counter = new DuplicateCounter();
-        counter.CountDuplicates(array);
-
-        int totalDuplicateCount = counter.GetTotalDuplicateCount();
-        Console.WriteLine("Total number of duplicate elements: " + totalDuplicateCount);
+        printer.PrintUniqueElements();
     }
 }
