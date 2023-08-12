@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class UniquePrinter
+class ElementFrequencyCounter
 {
-    private HashSet<int> uniqueElements;
+    private Dictionary<int, int> frequencyMap;
 
-    public UniquePrinter()
+    public ElementFrequencyCounter()
     {
-        uniqueElements = new HashSet<int>();
+        frequencyMap = new Dictionary<int, int>();
     }
 
-    public void AddElement(int num)
+    public void CountElement(int num)
     {
-        uniqueElements.Add(num);
-    }
-
-    public void PrintUniqueElements()
-    {
-        Console.WriteLine("Unique elements in the array:");
-        foreach (int element in uniqueElements)
+        if (frequencyMap.ContainsKey(num))
         {
-            Console.Write(element + " ");
+            frequencyMap[num]++;
         }
-        Console.WriteLine();
+        else
+        {
+            frequencyMap[num] = 1;
+        }
+    }
+
+    public void PrintElementFrequencies()
+    {
+        Console.WriteLine("Element Frequencies:");
+        foreach (var entry in frequencyMap)
+        {
+            Console.WriteLine($"{entry.Key}: {entry.Value} times");
+        }
     }
 }
 
@@ -30,14 +36,22 @@ class Program
 {
     static void Main(string[] args)
     {
-        int[] array = { 1, 2, 3, 4, 1, 2, 4, 5, 6, 7, 8, 9, 9 };
+        Console.Write("Enter the number of elements: ");
+        int n = int.Parse(Console.ReadLine());
 
-        UniquePrinter printer = new UniquePrinter();
-        foreach (int num in array)
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++)
         {
-            printer.AddElement(num);
+            Console.Write($"Enter element {i + 1}: ");
+            array[i] = int.Parse(Console.ReadLine());
         }
 
-        printer.PrintUniqueElements();
+        ElementFrequencyCounter counter = new ElementFrequencyCounter();
+        foreach (int num in array)
+        {
+            counter.CountElement(num);
+        }
+
+        counter.PrintElementFrequencies();
     }
 }
